@@ -10,7 +10,8 @@ export default class Form extends React.Component {
             gender: '',
             file: null,
             name: '',
-            error: false
+            error: false,
+            success:false
         }
     }
 
@@ -43,7 +44,7 @@ export default class Form extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault()
-        const {error,loaded,...obj} = this.state
+        const {error,loaded,success,...obj} = this.state
         Object.values(obj).forEach(value => {
             if (!value) {
                 this.setState({ error: true })
@@ -51,7 +52,10 @@ export default class Form extends React.Component {
         })
         setTimeout(() => {
             console.log(this.state)
-        }, 0);
+            if(!this.state.error){
+                this.setState({success:true})
+            }
+        }, 0)
     }
 
 
@@ -63,6 +67,12 @@ export default class Form extends React.Component {
                         this.state.error &&
                         <div className="alert alert-danger" role="alert">
                             Kindly fill all the inputs
+                        </div>
+                    }
+                    {
+                        this.state.success &&
+                        <div className="alert alert-success" role="alert">
+                            Form Submitted
                         </div>
                     }
                     <div className="form-group">
